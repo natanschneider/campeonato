@@ -12,12 +12,11 @@ type Jogo = {
 };
 
 export async function GetJogos(timeParam: string) {
-    console.log(timeParam);
     const api = await CallApi();
     const fase = api["ordem-fases"][0];
     const time = timeParam;
-    const arrJogos: Jogo[] = api.fases[fase].jogos.id;
     const equipe = api.equipes;
+
     const jogos: {
         Equipe?: string;
         jogos?: Array<{
@@ -33,13 +32,13 @@ export async function GetJogos(timeParam: string) {
         }>;
     } = { jogos: [] };
 
-    let pos = 0;
+    const arrJogosObj = api.fases[fase].jogos.id as Record<string, Jogo>;
+    const arrJogos = Object.values(arrJogosObj);
 
+    let pos = 0;
     for (const value of arrJogos) {
         const time1 = value.time1;
         const time2 = value.time2;
-
-        jogos.Equipe = equipe[time]?.['nome-comum'];
 
         if (time1 === time || time2 === time) {
             const entry = {
