@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tanstack-app
+    container_name: campeonato-app
     environment:
       - NODE_ENV=production
       - PORT=3004
