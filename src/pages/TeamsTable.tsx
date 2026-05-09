@@ -15,6 +15,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { Link } from "@tanstack/react-router";
 
 export const TableClassificacao: ColumnDef<Time>[] = [
 	{
@@ -28,9 +29,18 @@ export const TableClassificacao: ColumnDef<Time>[] = [
 	{
 		accessorKey: "brasao",
 		header: "",
-		cell: (info) => (
-			<img src={info.getValue() as string} alt="Brasão" className="w-10 h-10" />
-		),
+		cell: (info) => {
+			const teamId = info.row.original.id;
+			const brasaoUrl = info.getValue() as string;
+			return (
+				<Link
+					to={`/jogos/${teamId}`}
+					className="hover:opacity-80 transition-opacity"
+				>
+					<img src={brasaoUrl} alt="Brasão" className="w-10 h-10" />
+				</Link>
+			);
+		},
 	},
 	{
 		accessorKey: "nome",
