@@ -19,8 +19,21 @@ interface MatchesResponse {
 }
 
 export const Route = createFileRoute("/jogos/$timeId")({
-	loader: async ({ params }) => {
-		const data = (await GetJogos(params.timeId)) as MatchesResponse;
+	validateSearch: (search: Record<string, unknown>) => ({
+		year: typeof search.year === "string" ? search.year : "2025",
+		championshipId:
+			typeof search.championshipId === "string" ? search.championshipId : "30",
+	}),
+	loaderDeps: ({ search }) => ({
+		year: search.year,
+		championshipId: search.championshipId,
+	}),
+	loader: async ({ params, deps }) => {
+		const data = (await GetJogos(
+			params.timeId,
+			deps.year,
+			deps.championshipId,
+		)) as MatchesResponse;
 		return data;
 	},
 	component: RouteComponent,

@@ -11,8 +11,12 @@ type Jogo = {
     [key: string]: any;
 };
 
-export async function GetJogos(timeParam: string) {
-    const api = await CallApi();
+export async function GetJogos(
+    timeParam: string,
+    year: string,
+    championshipId: string,
+) {
+    const api = await CallApi({ data: { year, championshipId } });
     const fase = api["ordem-fases"][0];
     const time = timeParam;
     const equipe = api.equipes;

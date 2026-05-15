@@ -1,7 +1,10 @@
 import CallApi from "./CallApi";
 
-export default async function GetClassificacao() {
-    const api = await CallApi();
+export default async function GetClassificacao(
+    year: string,
+    championshipId: string,
+) {
+    const api = await CallApi({ data: { year, championshipId } });
 
     const fase = api["ordem-fases"][0];
 

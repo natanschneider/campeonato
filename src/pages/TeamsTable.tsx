@@ -35,6 +35,7 @@ export const TableClassificacao: ColumnDef<Time>[] = [
 			return (
 				<Link
 					to={`/jogos/${teamId}`}
+					search={true}
 					className="hover:opacity-80 transition-opacity"
 				>
 					<img src={brasaoUrl} alt="Brasão" className="w-10 h-10" />

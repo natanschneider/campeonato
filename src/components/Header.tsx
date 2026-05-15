@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import ThemeToggle from './ThemeToggle'
+import { YearSelect } from './YearSelect'
+import { ChampionshipSelect } from './ChampionshipSelect'
 
 export default function Header() {
   return (
@@ -8,6 +10,7 @@ export default function Header() {
         <h2 className="m-0 shrink-0 text-base font-semibold tracking-tight">
           <Link
             to="/"
+            search={true}
             className="inline-flex items-center gap-2 px-3 py-1.5 text-sm no-underline sm:px-4 sm:py-2"
           >
             <span className="h-2 w-2 rounded-full" />
@@ -17,6 +20,8 @@ export default function Header() {
 
         <div className="ml-auto flex items-center gap-1.5 sm:ml-0 sm:gap-2">
           <ThemeToggle />
+          <YearSelect />
+          <ChampionshipSelect />
         </div>
       </nav>
     </header>
