@@ -16,11 +16,45 @@ const CallApi = createServerFn({ method: 'GET', strict: false }).handler(
                 ? data.championshipId
                 : DEFAULT_CHAMPIONSHIP_ID;
 
-        const response = await axios.get(
-            `http://jsuol.com.br/c/monaco/utils/gestor/commons.js?&file=commons.uol.com.br/sistemas/esporte/modalidades/futebol/campeonatos/dados/${year}/${championshipId}/dados.json`,
-        );
+        try {
+            const response = await axios.get(
+                `http://jsuol.com.br/c/monaco/utils/gestor/commons.js?&file=commons.uol.com.br/sistemas/esporte/modalidades/futebol/campeonatos/dados/${year}/${championshipId}/dados.json`,
+            );
 
-        return response.data;
+            if (!response.data) {
+                throw new Error(
+                    `Dados nao encontrados`,
+                );
+            }
+
+            if (
+                !Array.isArray(response.data['ordem-fases']) ||
+                response.data['ordem-fases'].length === 0
+            ) {
+                throw new Error(
+                    `Dados nao encontrados`,
+                );
+            }
+
+            return response.data;
+        } catch (error) {
+            if (
+                error instanceof Error &&
+                (error.message.startsWith('Dados nao encontrados') ||
+                    error.message.startsWith('Dados nao encontrados'))
+            ) {
+                throw error;
+            }
+
+            if (axios.isAxiosError(error) && error.response?.status === 404) {
+                throw new Error(
+                    `Dados nao encontrados`,
+                    { cause: error },
+                );
+            }
+
+            throw new Error('Unable to retrieve championship data.', { cause: error });
+        }
     },
 );
 
